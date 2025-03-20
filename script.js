@@ -1,52 +1,37 @@
-document.getElementById("addRestaurantForm").addEventListener("submit", async (event) => {
-    event.preventDefault();
+const API_URL = "https://gopizza-backend.onrender.com/restaurants";
 
-    const name = document.getElementById("restaurantName").value.trim();
-    const zomatoUrl = document.getElementById("zomatoUrl").value.trim();
+// Fetch and display restaurants with ratings
+function fetchRestaurants() {
+    fetch(API_URL)
+        .then(res => res.json())
+        .then(data => {
+            let list = document.getElementById("restaurantList");
+            list.innerHTML = "";
 
-    if (!name || !zomatoUrl) {
-        alert("Please enter restaurant name and Zomato URL.");
-        return;
-    }
+            data.forEach(r => {
+                let div = document.createElement("div");
+                div.className = "restaurant-item";
+                div.innerHTML = `
+                    <span>${r.name} - <a href="${r.zomatoUrl}" target="_blank">View on Zomato</a> 
+                    <span class="rating" id="rating-${r.id}">Loading...</span></span>
+                `;
+                list.appendChild(div);
 
-    const response = await fetch("https://gopizza-backend.onrender.com/add-restaurant", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, zomatoUrl }),
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-        alert("Restaurant added successfully!");
-        loadRestaurants();  // Reload restaurant list
-    } else {
-        alert("Failed to add restaurant. Try again.");
-    }
-});
-
-async function loadRestaurants() {
-    try {
-        const response = await fetch("https://gopizza-backend.onrender.com/restaurants");
-        const data = await response.json();
-
-        const list = document.getElementById("restaurantList");
-        list.innerHTML = "";
-
-        if (!Array.isArray(data) || data.length === 0) {
-            list.innerHTML = "<p>No restaurants available.</p>";
-            return;
-        }
-
-        data.forEach((restaurant) => {
-            const item = document.createElement("li");
-            item.innerHTML = `<strong>${restaurant.name}</strong> - <a href="${restaurant.zomatoUrl}" target="_blank">View on Zomato</a>`;
-            list.appendChild(item);
-        });
-    } catch (error) {
-        console.error("Error loading restaurants:", error);
-    }
+                fetch(`https://gopizza-backend.onrender.com/ratings/${r.id}`)
+                    .then(res => res.json())
+                    .then(scrapedData => {
+                        if (scrapedData.ratings) {
+                            document.getElementById(`rating-${r.id}`).textContent = `⭐ Dine-in: ${scrapedData.ratings.dine_in} | Delivery: ${scrapedData.ratings.delivery}`;
+                        } else {
+                            document.getElementById(`rating-${r.id}`).textContent = "No ratings available";
+                        }
+                    })
+                    .catch(() => {
+                        document.getElementById(`rating-${r.id}`).textContent = "Failed to load";
+                    });
+            });
+        })
+        .catch(error => console.error("Error fetching restaurants:", error));
 }
 
-// Load restaurants when the page loads
-window.onload = loadRestaurants;
+fetchRestaurants();
