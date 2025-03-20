@@ -1,8 +1,8 @@
-const API_URL = "https://gopizza-backend.onrender.com/restaurants";
+const API_URL = "https://gopizza-backend.onrender.com";
 
-// Fetch and display restaurants with ratings
+// Fetch and display restaurants
 function fetchRestaurants() {
-    fetch(API_URL)
+    fetch(`${API_URL}/restaurants`)
         .then(res => res.json())
         .then(data => {
             let list = document.getElementById("restaurantList");
@@ -17,13 +17,15 @@ function fetchRestaurants() {
                 `;
                 list.appendChild(div);
 
-                fetch(`https://gopizza-backend.onrender.com/ratings/${r.id}`)
+                // Fetch ratings from API
+                fetch(`${API_URL}/ratings/${r.id}`)
                     .then(res => res.json())
-                    .then(scrapedData => {
-                        if (scrapedData.ratings) {
-                            document.getElementById(`rating-${r.id}`).textContent = `⭐ Dine-in: ${scrapedData.ratings.dine_in} | Delivery: ${scrapedData.ratings.delivery}`;
+                    .then(ratingData => {
+                        let ratingElem = document.getElementById(`rating-${r.id}`);
+                        if (ratingData.ratings) {
+                            ratingElem.textContent = `⭐ Dine-in: ${ratingData.ratings.dine_in} | Delivery: ${ratingData.ratings.delivery}`;
                         } else {
-                            document.getElementById(`rating-${r.id}`).textContent = "No ratings available";
+                            ratingElem.textContent = "No ratings available";
                         }
                     })
                     .catch(() => {
