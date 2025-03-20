@@ -1,0 +1,115 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: url('bg.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    padding: 20px;
+    text-align: center;
+}
+
+h2 {
+    color: white;
+    background-color: orangered;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Restaurant List Container */
+.restaurant-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Restaurant Item Styling */
+.restaurant-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid orangered;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.restaurant-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Restaurant Name & Link */
+.restaurant-item a {
+    text-decoration: none;
+    color: #ff4500;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.restaurant-item a:hover {
+    color: #d43f00;
+}
+
+/* Rating */
+.rating {
+    font-weight: bold;
+    color: #28a745;
+    font-size: 16px;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+    .restaurant-list {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .restaurant-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        text-align: left;
+        padding: 12px;
+    }
+
+    .rating {
+        font-size: 14px;
+        color: #ff6600;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+}
+
+/* Very Small Screens (like iPhone SE) */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .restaurant-item {
+        padding: 10px;
+    }
+
+    .rating {
+        font-size: 13px;
+    }
+}

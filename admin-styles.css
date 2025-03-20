@@ -1,0 +1,202 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+body {
+    background: url('bg.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    padding: 20px;
+    text-align: center;
+}
+
+
+/* Header */
+h2 {
+    color: #ff4500;
+    font-size: 40px;
+    background-color: white;
+    border: 2px solid orangered;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: #000000;
+    font-size: 26px;
+    margin-top: 50px;
+}
+
+/* Form Section */
+.form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
+    margin: 0 auto 30px; /* Added margin at bottom */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.input-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+button {
+    background: #000000;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.3s, transform 0.2s;
+    width: 100%;
+}
+
+button:hover {
+    background: #d43f00;
+    transform: scale(1.02);
+}
+
+/* Restaurant List Section */
+.restaurant-list {
+    max-width: 800px;
+    margin: 30px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Restaurant Item */
+.restaurant-item {
+    background: white;
+    border: 1px solid orangered;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.restaurant-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.restaurant-item a {
+    text-decoration: none;
+    color: #ff4500;
+    font-weight: 600;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.restaurant-item a:hover {
+    color: #d43f00;
+}
+
+/* Delete Button (Smaller and Well-Spaced) */
+/* Delete Button (Compact & Well-Spaced) */
+.delete-btn {
+    background: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 7px 15px;  /* Smaller padding */
+    font-size: 17px;  /* Smaller text */
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s, transform 0.2s;
+    width: auto; /* No extra width */
+    text-align: center;
+    min-width: 50px; /* Ensuring it doesn't become too small */
+}
+
+.delete-btn:hover {
+    background: rgb(255, 0, 0);
+    transform: scale(1.05);
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .restaurant-list {
+        width: 100%;
+        padding: 0 15px;
+    }
+
+    .restaurant-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        text-align: left;
+        padding: 15px;
+    }
+
+    button, .delete-btn {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    .form-container {
+        padding: 20px;
+        max-width: 90%;
+    }
+}
+
+/* Very Small Screens (like iPhone SE) */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .restaurant-item {
+        padding: 12px;
+    }
+
+    button, .delete-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .form-container {
+        max-width: 95%;
+    }
+}

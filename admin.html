@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - GOPIZZA Zomato Ratings</title>
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body>
+
+    <h2>GOPIZZA Zomato Ratings Admin Panel</h2>
+    
+    <input type="text" id="name" placeholder="Restaurant Name">
+    <input type="text" id="zomatoUrl" placeholder="Zomato URL">
+    <button onclick="addRestaurant()">Add Restaurant</button>
+
+    <h3>Restaurant List</h3>
+    <div id="restaurantList" class="restaurant-list"></div>
+
+    <script>
+        // ✅ Update API URL for online deployment
+        const API_URL = "https://gopizza-backend.onrender.com/restaurants";
+
+        // Fetch and display restaurants
+        function fetchRestaurants() {
+            fetch(API_URL)
+                .then(res => res.json())
+                .then(data => {
+                    let list = document.getElementById("restaurantList");
+                    list.innerHTML = "";
+                    data.forEach(r => {
+                        let div = document.createElement("div");
+                        div.className = "restaurant-item";
+                        div.innerHTML = `
+                            <span>${r.name} - <a href="${r.zomatoUrl}" target="_blank">View on Zomato</a></span>
+                            <button class="delete-btn" onclick="deleteRestaurant(${r.id})">Delete</button>
+                        `;
+                        list.appendChild(div);
+                    });
+                });
+        }
+
+        // Add a new restaurant
+        function addRestaurant() {
+            let name = document.getElementById("name").value;
+            let zomatoUrl = document.getElementById("zomatoUrl").value;
+            
+            if (!name || !zomatoUrl) {
+                alert("Please enter both fields");
+                return;
+            }
+
+            fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, zomatoUrl })
+            }).then(() => {
+                fetchRestaurants();
+                document.getElementById("name").value = "";
+                document.getElementById("zomatoUrl").value = "";
+            });
+        }
+
+        // Delete a restaurant
+        function deleteRestaurant(id) {
+            fetch(`${API_URL}/${id}`, { method: "DELETE" })
+                .then(() => fetchRestaurants());
+        }
+
+        // Load restaurants when page loads
+        fetchRestaurants();
+    </script>
+
+</body>
+</html>
