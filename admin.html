@@ -3,76 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - GOPIZZA</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Admin - Add Restaurants</title>
 </head>
 <body>
+    <h2>Add New Restaurant</h2>
+    <input type="text" id="name" placeholder="Restaurant Name">
+    <input type="text" id="zomatoUrl" placeholder="Zomato URL">
+    <button onclick="addRestaurant()">Add</button>
 
-    <h2>Admin Panel - Manage Restaurants</h2>
-
-    <!-- Form to Add Restaurant -->
-    <form id="addRestaurantForm">
-        <input type="text" id="restaurantName" placeholder="Restaurant Name" required>
-        <input type="text" id="zomatoUrl" placeholder="Zomato URL" required>
-        <button type="submit">Add Restaurant</button>
-    </form>
-
-    <!-- Restaurant List -->
-    <h3>Existing Restaurants</h3>
+    <h2>Restaurants</h2>
     <ul id="restaurantList"></ul>
 
     <script>
         const API_URL = "https://gopizza-backend.onrender.com";
 
-        // Fetch and display restaurants
-        function fetchRestaurants() {
-            fetch(`${API_URL}/restaurants`)
-                .then(res => res.json())
-                .then(data => {
-                    let list = document.getElementById("restaurantList");
-                    list.innerHTML = "";
-
-                    data.forEach(r => {
-                        let li = document.createElement("li");
-                        li.innerHTML = `
-                            ${r.name} - <a href="${r.zomatoUrl}" target="_blank">View on Zomato</a>
-                            <button onclick="deleteRestaurant(${r.id})">❌ Delete</button>
-                        `;
-                        list.appendChild(li);
-                    });
-                })
-                .catch(error => console.error("Error fetching restaurants:", error));
-        }
-
-        // Add a new restaurant
-        document.getElementById("addRestaurantForm").addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            let name = document.getElementById("restaurantName").value;
-            let zomatoUrl = document.getElementById("zomatoUrl").value;
+        function addRestaurant() {
+            const name = document.getElementById("name").value;
+            const zomatoUrl = document.getElementById("zomatoUrl").value;
 
             fetch(`${API_URL}/add-restaurant`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, zomatoUrl })
-            })
-            .then(res => res.json())
-            .then(() => {
-                fetchRestaurants(); // Refresh the list
-                document.getElementById("addRestaurantForm").reset();
-            })
-            .catch(error => console.error("Error adding restaurant:", error));
-        });
-
-        // Delete a restaurant
-        function deleteRestaurant(id) {
-            fetch(`${API_URL}/delete-restaurant/${id}`, { method: "DELETE" })
-                .then(() => fetchRestaurants())
-                .catch(error => console.error("Error deleting restaurant:", error));
+            }).then(() => location.reload());
         }
-
-        fetchRestaurants(); // Load restaurants on page load
     </script>
-
 </body>
 </html>
