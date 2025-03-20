@@ -3,23 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Add Restaurant</title>
+    <title>Add Restaurant</title>
 </head>
 <body>
 
     <h2>Add a Restaurant</h2>
-    <form id="addRestaurantForm">
-        <input type="text" id="name" placeholder="Restaurant Name" required>
-        <input type="url" id="zomatoUrl" placeholder="Zomato URL" required>
-        <button type="submit">Add Restaurant</button>
-    </form>
+    
+    <input type="text" id="name" placeholder="Restaurant Name">
+    <input type="text" id="zomatoUrl" placeholder="Zomato URL">
+    <button onclick="addRestaurant()">Add</button>
 
     <script>
-        document.getElementById("addRestaurantForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            const name = document.getElementById("name").value;
-            const zomatoUrl = document.getElementById("zomatoUrl").value;
+        function addRestaurant() {
+            let name = document.getElementById("name").value;
+            let zomatoUrl = document.getElementById("zomatoUrl").value;
 
             fetch("https://gopizza-backend.onrender.com/add-restaurant", {
                 method: "POST",
@@ -27,12 +24,9 @@
                 body: JSON.stringify({ name, zomatoUrl })
             })
             .then(res => res.json())
-            .then(data => {
-                alert("Restaurant added successfully!");
-                window.location.reload();
-            })
-            .catch(error => console.error("Error adding restaurant:", error));
-        });
+            .then(() => alert("Restaurant Added!"))
+            .catch(() => alert("Error Adding"));
+        }
     </script>
 
 </body>
